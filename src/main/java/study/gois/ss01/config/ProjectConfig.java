@@ -10,15 +10,24 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import study.gois.ss01.security.CustomAuthenticationProvider;
 
 @Configuration
 public class ProjectConfig {
+
+    private final CustomAuthenticationProvider authenticationProvider;
+
+    public ProjectConfig(CustomAuthenticationProvider authenticationProvider) {
+        this.authenticationProvider = authenticationProvider;
+    }
 
     @Bean
     SecurityFilterChain configure(HttpSecurity http) throws Exception {
 
         // App uses HTTP Basic authentication
         http.httpBasic(Customizer.withDefaults());
+
+        http.authenticationProvider(authenticationProvider);
 
         // All the requests require authentication.
         http.authorizeHttpRequests(
@@ -27,32 +36,21 @@ public class ProjectConfig {
                 // c -> c.anyRequest().permitAll()
         );
 
-        var user = User.withUsername("john")
+        /*var user = User.withUsername("john")
                 .password("12345")
                 .authorities("read")
                 .build();
 
         var userDetailsService = new InMemoryUserDetailsManager(user);
 
-        http.userDetailsService(userDetailsService);
+        http.userDetailsService(userDetailsService);*/
 
         return http.build();
     }
 
     /*@Bean
-    UserDetailsService userDetailsService() {
-
-        var user = User.withUsername("john")
-                .password("12345")
-                .authorities("read")
-                .build();
-
-        return new InMemoryUserDetailsManager(user);
-    }*/
-
-    @Bean
     PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
-    }
+    }*/
 
 }

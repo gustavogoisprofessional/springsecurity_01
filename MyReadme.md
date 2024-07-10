@@ -28,3 +28,7 @@ curl -I http://localhost:8080/hello
 ![img_5.png](img_5.png)
 
 ![img_6.png](img_6.png)
+
+# Ch02 - ex04 - Customizing Authentication Manager
+
+```curl -u john:12345 http://localhost:8080/hello```
